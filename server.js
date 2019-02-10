@@ -2,15 +2,13 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const exphbs = require('express-handlebars');
-const favicon = require('serve-favicon');
+// const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override')
 const port = process.env.PORT || 3000
-
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/club-app-db');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +22,8 @@ app.engine('hbs', exphbs({
 }));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
+
+mongoose.connect('mongodb://localhost/club-app-db', { useNewUrlParser: true });
 require('./data/clubs-app-db');
 
 app.use(methodOverride('_method')) // override with POST having ?_method=DELETE or ?_method=PUT
@@ -37,10 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Create routers for every route in app
 const user = require('./routers/user');
-const checkAuth = require('./middleware/checkAuth')
 
 app.use(user);
-app.use(checkAuth);
 
 
 app.listen(port);

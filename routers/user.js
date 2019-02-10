@@ -2,27 +2,36 @@
 //  login : GET, POST
 //  signup : GET, POST
 //  logout : GET
-
 const users = require('express').Router();
+const controller = require('../controllers/user');
+const checkAuth = require('../middleware/checkAuth');
+const User = require('../models/user');
 
-router.get('/login', (req,res) => {
-    // login function
+users.get(('/dashboard', '/', '/home'), (req,res) => {
+    res.render('dashboard');
 });
 
-router.post('/login', (req,res) => {
-    // login function
+users.get('/login', (req,res) => {
+    req.user ? res.redirect('/dashboard') : res.render('login');
 });
 
-router.get('/signup', async (req,res) => {
-    // signup function
+users.post('/login', (req,res) => {
+    const { username, password } = req.body;
+    controller.logIn(username, password);
 });
 
-router.post('/signup', async (req,res) => {
-    // signup function
+users.get('/signup', checkAuth, (req,res) => {
+    res.render('/signup');
 });
 
-router.get('/logout', async (req,res) => {
-    // logout function
+users.post('/signup', checkAuth, (req,res) => {
+    const username = req.body.username;
+    controller.signUp(username);
+});
+
+users.get('/logout', (req,res) => {
+    res.clearCookie('nToken');
+    res.redirect('/');
 });
 
 module.exports = users;

@@ -1,0 +1,59 @@
+<main>
+    <form id="getStartedForm" class="get-started-form" action="/start" method="post">
+        
+        {{!-- Circles which indicates the steps of the form: --}}
+        <div class="step-circles">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+        </div>
+        
+        <!-- One "tab" for each step in the form: -->
+
+        {{!-- Tab 1 What We Offer --}}
+        <div class="offers tab">
+            <h3>What We Offer</h3>
+            <ul>
+                <li>💻 Website Design</li>
+                <li>👷🏻 Content Management System</li>
+                <li>🔒 SSL Security</li>
+                <li>📡 Hosting and Backups</li>
+                <li>💙 Knowledge & Expertise</li>
+            </ul>
+        </div>
+        {{!-- Tab 2 How We Work --}}
+        <div class="how-we-work tab">
+            <h3>How We Work</h3>
+            <ul>
+                <li>  • Once your offer is accepted, we discuss potential design routes.</li>
+                <li>  • We follow a kanban development methodology where we iterate in sprints of work to send you timely updates.</li>
+                <li>  • Between each update, we take into account your feedback to give you an experience you love.</li>
+                <li>  • Once the site is good to go, we make it live.</li>
+                <li>  • Lastly, we give you the tools to update the site and update it as you please.</li>
+            </ul>
+        </div>
+
+        {{!-- Tab 3 Sign Up --}}
+        <div class="tab">
+            <h3>Signup</h3>
+
+            <input type="text" name="fullName" placeholder="Full Name" oninput="this.className = ''">
+
+            <input type="email" name="email" placeholder="Email" type="email"oninput="this.className = ''">
+
+            <input type="number" name="phoneNumber"placeholder="Phone Number"oninput="this.className = ''">
+
+            <input type="text" name="username" placeholder="Username" oninput="this.className = ''">
+
+            <input type="password" name="password" placeholder="Password" minlength="7" oninput="this.className = ''">
+        </div>
+
+        <div style="overflow:auto;">
+            <div>
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            </div>
+        </div>
+    </form> 
+
+</main>

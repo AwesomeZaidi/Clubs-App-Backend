@@ -1,0 +1,29 @@
+{
+  "name": "Clubs-App",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "mocha **/*.test.js",
+    "test-watch": "nodemon --exec 'npm test'"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "handlebars-helpers": "^0.10.0",
+    "method-override": "^2.3.10",
+    "mongoose": "^5.1.1",
+    "morgan": "^1.9.1",
+    "serve-favicon": "~2.4.5",
+    "stripe": "^5.3.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "mocha": "^5.2.0"
+  }
+}

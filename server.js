@@ -35,7 +35,13 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./routers/users.js')(app);
+// Create routers for every route in app
+const user = require('./routers/user');
+const checkAuth = require('./middleware/checkAuth')
+
+app.use(user);
+app.use(checkAuth);
+
 
 app.listen(port);
 

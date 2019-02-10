@@ -35,7 +35,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./routes/users.js')(app);
+require('./routers/users.js')(app);
 
 app.listen(port);
 

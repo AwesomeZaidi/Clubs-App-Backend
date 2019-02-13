@@ -7,17 +7,13 @@
 
 const users = require('express').Router();
 const controller = require('../controllers/user');
-// const checkAuth = require('../middleware/checkAuth');
 
 users.get('/dashboard', (req,res) => {
-    console.log("in db route");
-    
-    console.log("req.user:", req.user);
     req.user ? res.render('dashboard') : res.redirect('/login');
 });
 
 users.get('/signup', (req,res) => {
-    res.render('signup');
+    req.user ? res.redirect('/dashboard') : res.render('signup');
 });
 
 users.get('/login', (req,res) => {

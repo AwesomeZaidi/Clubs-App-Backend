@@ -36,6 +36,7 @@ function logIn(body) {
     });
 };
 
+// COULDN'T GET THIS TO WORK
 // async function logIn(username, password) {
 //     const user = await User.findOne({username}, "username password");
 //     if(!user) {

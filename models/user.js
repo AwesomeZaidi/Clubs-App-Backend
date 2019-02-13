@@ -4,12 +4,10 @@ const bcrypt = require('bcrypt');
 
 const UserSchema = new Schema({
   fullName: { type: String, required: true },
-  email: { type: String, required: true },
-  phoneNumber: { type: String, required: true },
+  // email: { type: String, required: true },
+  // phoneNumber: { type: String, required: true },
   username: { type: String, required: true },
-  password: { type: String, select: false },
-  projects : [{ type: Schema.Types.ObjectId, ref: "Project", required: false }],
-  isAdmin: { type: Boolean, default: false }
+  password: { type: String, select: false }
 }, {
   timestamps: true,
 });

@@ -11,8 +11,9 @@ module.exports = (req, res, next) => {
             return true;
         });
     } else {
-      req.user = null;
-      next();
-      return false;
+        res.redirect('/login');
+        // req.user = null;
+        // next();
+        // return false;
     }
 };

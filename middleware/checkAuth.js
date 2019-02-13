@@ -1,19 +1,17 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
+module.exports = function (req, res, next) {
     if (req.cookies && req.cookies.nToken) {
-        const uid = jwt.decode(req.cookies.nToken, process.env.SECRET, { complete: true })._id || {};
+        console.log("req.cookies", req.cookies)
+        const uid = jwt.decode(req.cookies.nToken, process.env.SECRET)._id;
         User.findById(uid).then(user => {
             req.user = user;
             res.locals.authenticatedUser = user;
-            next();
-            return true;
+            return next();
         });
     } else {
-        res.redirect('/login');
-        // req.user = null;
-        // next();
-        // return false;
+        res.user = null;
+        return next();
     }
-};
+}

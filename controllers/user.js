@@ -3,40 +3,56 @@ const jwt = require('jsonwebtoken');
 const User = require("../models/user");
 require('dotenv').config();
 
-async function signUp(body) {
-    // return new Promise((resolve, reject) => {
-    const username = body.username;
-    const user = await User.findOne({username}, "username");
-    // User.findOne({username}, "username").then(user => {
-        if(user) {
-            // return res.status(401).send({ message: "Account with this username already exists" });
-            // reject();
-            throw('Account with this username already exists');
-        } else {
-            const user = new User(body);
+function signUp(body) {
+    return new Promise(async (resolve, reject) => {
+        const username = body.username;
+        let user = await User.findOne({username}, "username");
+        if (user) {
+            reject('Account with this username already exists');
+        }
+        user = new User(body);
+        user.save().then((user) => {
             console.log("user:", user);
-            
-            user.save().then((user) => {
-                const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: "60 days" });
-                // set the cookie when someone signs up and logs in
-                // res.cookie('nToken', token, { maxAge: 600000, httpOnly: true });
-                // res.redirect("/dashboard");
-                // resolve(token);
-                return(token);
-            }).catch(err => {
-                console.log(err.message);
-                // reject(err.message);
-                throw err;
-
-            });
-        } // end else
-    // }).catch((err) => {
-    //     console.log(err);
-    //     // reject(err.message);
-    //     throw err;
-    // });
+            const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: "60 days" });
+            resolve(token);
+        }).catch(reject);
+    });
 };
 
+function logIn(body) {
+    return new Promise(async (resolve, reject) => {
+        const { username, password } = body;
+        let user = await User.findOne({username}, "username password");
+        if (!user) {
+            reject('Wrong Username');
+        };
+        user.comparePassword(password, (err, isMatch) => {
+            if (!isMatch) {
+                reject('Wrong Username or password');
+            };
+            const token = jwt.sign({_id: user._id, username: user.username}, process.env.SECRET, { expiresIn: "60 days" });
+            resolve(token);   
+        }).catch(reject);
+    });
+};
+
+// async function logIn(username, password) {
+//     const user = await User.findOne({username}, "username password");
+//     if(!user) {
+//         throw('Wrong Username');
+//     }
+//     return user.comparePassword(password, (err, isMatch) => {
+//         if (!isMatch) {
+//             throw('Wrong Username or password');
+//         };
+//         const token = jwt.sign({_id: user._id, username: user.username}, process.env.SECRET, { expiresIn: "60 days" });
+//         return token;      
+//     }).catch(err => {
+//         throw err;
+//     });
+// };
+
 module.exports = {
-    signUp: signUp
+    signUp: signUp,
+    logIn: logIn
 }

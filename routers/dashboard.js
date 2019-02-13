@@ -5,6 +5,8 @@
 const dashboard = require('express').Router();
 const controller = require('../controllers/dashboard');
 
+// GET index
+
 // GET /dashboard
     // call loadDashboard function
         

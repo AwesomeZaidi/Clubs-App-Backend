@@ -42,7 +42,5 @@ const user = require('./routers/user');
 app.use(checkAuth);
 app.use(user);
 
-
-
 app.listen(port);
 module.exports = { app }

@@ -8,6 +8,7 @@
     "test-watch": "nodemon --exec 'npm test'"
   },
   "dependencies": {
+    "bcrypt": "^3.0.4",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
@@ -15,8 +16,9 @@
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "handlebars-helpers": "^0.10.0",
+    "jsonwebtoken": "^8.4.0",
     "method-override": "^2.3.10",
-    "mongoose": "^5.1.1",
+    "mongoose": "^5.4.11",
     "morgan": "^1.9.1",
     "serve-favicon": "~2.4.5",
     "stripe": "^5.3.0"

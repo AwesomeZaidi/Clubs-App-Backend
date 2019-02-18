@@ -7,7 +7,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override')
-const port = process.env.PORT || 3000
+// const port = process.env.PORT || 3000
 const mongoose = require('mongoose');
 
 // view engine setup
@@ -42,5 +42,6 @@ const user = require('./routers/user');
 app.use(checkAuth);
 app.use(user);
 
-app.listen(port); // for heroku
+app.listen(process.env.PORT || 5000)
+// app.listen(port); // for heroku
 module.exports = { app }

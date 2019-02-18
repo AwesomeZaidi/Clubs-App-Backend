@@ -42,5 +42,5 @@ const user = require('./routers/user');
 app.use(checkAuth);
 app.use(user);
 
-app.listen(port);
+app.listen(port); // for heroku
 module.exports = { app }

@@ -8,6 +8,10 @@
 const users = require('express').Router();
 const controller = require('../controllers/user');
 
+users.get('/', (req, res) => {
+    res.render('index');
+});
+
 users.get('/dashboard', (req,res) => {
     req.user ? res.render('dashboard') : res.redirect('/login');
 });

@@ -5,6 +5,7 @@
 //  signup : GET, POS
 //  logout : GET
 
+
 const users = require('express').Router();
 const controller = require('../controllers/user');
 

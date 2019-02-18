@@ -4,8 +4,6 @@
 // login : GET, POST
 //  signup : GET, POS
 //  logout : GET
-
-
 const users = require('express').Router();
 const controller = require('../controllers/user');
 
@@ -20,6 +18,9 @@ users.get('/signup', (req,res) => {
 users.get('/login', (req,res) => {
     req.user ? res.redirect('/dashboard') : res.render('login');
 });
+
+
+
 
 users.post('/signup', (req,res) => {
     const body = req.body;

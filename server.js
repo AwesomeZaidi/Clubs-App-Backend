@@ -6,9 +6,19 @@ const exphbs = require('express-handlebars');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const methodOverride = require('method-override')
+const methodOverride = require('method-override');
+var cors = require('cors');
 // const port = process.env.PORT || 3000
 const mongoose = require('mongoose');
+
+// app.use(cors());
+
+app.use(cors({
+  origin:['http://localhost:3000'],
+  methods:['GET','POST'],
+  credentials: true // enable set cookie
+}));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -32,7 +32,7 @@ function logIn(body) {
             };
             const token = jwt.sign({_id: user._id, username: user.username}, process.env.SECRET, { expiresIn: "60 days" });
             resolve(token);   
-        }).catch(reject);
+        });
     });
 };
 

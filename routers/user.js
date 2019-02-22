@@ -12,7 +12,7 @@ users.get('/', (req, res) => {
     res.render('index');
 });
 
-users.get('/dashboard', (req,res) => {
+users.get('/dashboard', (req,res) => {  
     req.user ? res.render('dashboard') : res.redirect('/login');
 });
 
@@ -25,10 +25,13 @@ users.get('/login', (req,res) => {
 });
 
 users.post('/signup', (req,res) => {
+    console.log("in signup route");
+    console.log("req:", req.body);
     const body = req.body;
     controller.signUp(body).then(token => {
+        console.log("token:", token);
         res.cookie('nToken', token, { maxAge: 600000, httpOnly: true });
-        res.redirect("/dashboard");
+        return res.status(200).send({token});
     }).catch(error => {
         res.status(401).send(error);
     });
@@ -38,9 +41,8 @@ users.post('/login', (req,res) => {
     const body = req.body;
     // const { username, password } = req.body;
     controller.logIn(body).then(token => {
-        console.log("token:", token);
         res.cookie("nToken", token, {maxAge: 900000, httpOnly:true});
-        res.redirect("/dashboard");
+        return res.status(200).send({token});
     }).catch(error => {
         return res.status(401).send({ error });
     });

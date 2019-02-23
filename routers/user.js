@@ -25,11 +25,8 @@ users.get('/login', (req,res) => {
 });
 
 users.post('/signup', (req,res) => {
-    console.log("in signup route");
-    console.log("req:", req.body);
     const body = req.body;
     controller.signUp(body).then(token => {
-        console.log("token:", token);
         res.cookie('nToken', token, { maxAge: 600000, httpOnly: true });
         return res.status(200).send({token});
     }).catch(error => {

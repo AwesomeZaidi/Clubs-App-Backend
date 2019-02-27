@@ -3,16 +3,23 @@
 // /settings : GET
 // /settings : PUT
 
-const dashboard = require('express').Router();
+
+const settings = require('express').Router();
+// const User = require("../models/user");
 const controller = require('../controllers/settings');
 
-// GET /settings
-//     check if theres a user
-//     call getSettings func
-        
-// PUT/PATCH /settings
-//  *on edit action form submit
-    // call updateSettings func
+/* edit settings */
+settings.put('/settings', (req, res) => {
+    const data = req.body;
+    const userFormState = data.userFormState;
+    // here i need to grab the form data to pass into the updateSettings controller 
+    if (data.token) {
+        controller.updateSettings(userFormState).then(user => {
+            return res.status(200).send({user});
+        }).catch(console.err);
+    } else {
+        return res.status(400).send('Something went wrong.');
+    };
+});
 
-
-// module.exports = dashboard;
+module.exports = settings;

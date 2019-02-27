@@ -9,12 +9,11 @@ function signUp(body) {
         let user = await User.findOne({username}, "username");
         if (user) {
             reject('Account with this username already exists');
-        }
-        user = new User(body);
-        user.save().then((user) => {
-            console.log("user:", user);
-            const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: "60 days" });
-            resolve(token);
+        };
+        let newUser = new User(body);
+        newUser.save().then((newUser) => {
+            const token = jwt.sign({ _id: newUser._id }, process.env.SECRET, { expiresIn: "60 days" });
+            resolve({user: newUser, token: token});
         }).catch(reject);
     });
 };
@@ -22,17 +21,28 @@ function signUp(body) {
 function logIn(body) {
     return new Promise(async (resolve, reject) => {
         const { username, password } = body;
-        let user = await User.findOne({username}, "username password");
+        
+        let user = await User.findOne({username}, "username type password");
+        console.log("USER IN C:", user);
+        
+        // let user = await User.findOne({"username": username});
         if (!user) {
             reject('Wrong Username');
         };
         user.comparePassword(password, (err, isMatch) => {
             if (!isMatch) {
-                reject('Wrong Username or password');
+                reject('Wrong Username or Password');
             };
             const token = jwt.sign({_id: user._id, username: user.username}, process.env.SECRET, { expiresIn: "60 days" });
-            resolve(token);   
+            resolve({user, token});   
         });
+        // user.comparePassword.then((err, isMatch) => {
+        //     console.log("user:", user);
+        //     if (!isMatch) {
+        //         reject('Wrong Username or password');
+        //     };
+        //     resolve(user);  
+        // });
     });
 };
 

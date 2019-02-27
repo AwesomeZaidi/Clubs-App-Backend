@@ -7,30 +7,13 @@
 const users = require('express').Router();
 const controller = require('../controllers/user');
 
-users.get('/', (req, res) => {
-    res.render('index');
-});
-
-users.get('/dashboard', (req,res) => {  
-    req.user ? res.render('dashboard') : res.redirect('/login');
-});
-
-users.get('/signup', (req,res) => {
-    req.user ? res.redirect('/dashboard') : res.render('signup');
-});
-
-users.get('/login', (req,res) => {
-    req.user ? res.redirect('/dashboard') : res.render('login');
-});
-
-
-
-
 users.post('/signup', (req,res) => {
     const body = req.body;
-    controller.signUp(body).then(token => {
+    controller.signUp(body).then((result) => {     
+        const token = result.token;
+        const user = result.user;   
         res.cookie('nToken', token, { maxAge: 600000, httpOnly: true });
-        return res.status(200).send({token});
+        return res.status(200).send({user, token});
     }).catch(error => {
         res.status(401).send(error);
     });
@@ -38,12 +21,15 @@ users.post('/signup', (req,res) => {
 
 users.post('/login', (req,res) => {
     const body = req.body;
-    // const { username, password } = req.body;
-    controller.logIn(body).then(token => {
+    controller.logIn(body).then((result) => {
+        const token = result.token;
+        const user = result.user;  
         res.cookie("nToken", token, {maxAge: 900000, httpOnly:true});
-        return res.status(200).send({token});
+        console.log("user:", user);
+        return res.status(200).send({user, token});
     }).catch(error => {
-        return res.status(401).send({ error });
+        console.log("error:", error);
+        return res.status(400).send({ error });
     });
 });
 

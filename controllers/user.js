@@ -1,6 +1,7 @@
 
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
+const Club = require("../models/club");
 require('dotenv').config();
 
 function signUp(body) {
@@ -46,24 +47,31 @@ function logIn(body) {
     });
 };
 
-// COULDN'T GET THIS TO WORK
-// async function logIn(username, password) {
-//     const user = await User.findOne({username}, "username password");
-//     if(!user) {
-//         throw('Wrong Username');
-//     }
-//     return user.comparePassword(password, (err, isMatch) => {
-//         if (!isMatch) {
-//             throw('Wrong Username or password');
-//         };
-//         const token = jwt.sign({_id: user._id, username: user.username}, process.env.SECRET, { expiresIn: "60 days" });
-//         return token;      
-//     }).catch(err => {
-//         throw err;
-//     });
-// };
+function requestClub(userData, clubData) {
+    return new Promise(async (resolve, reject) => {
+        let user = await User.findById(userData._id);
+        if (user) {
+            console.log("user found:", user);
+            let club = new Club(clubData);
+            console.log("club created:", club);
+            user.clubs.push(club);
+            console.log("user.clubs appended and saved:", user.clubs);
+            user.requested = true;
+            user.accepted = false;
+            user.save();            
+            console.log("user saved:", user);
+            club.leaders.push(user)
+            club.save();
+            console.log("club leaders appened and saved:", club.leaders);
+            resolve(user);
+        } else {
+            reject("User not found or something went wrong");
+        };
+    });
+};
 
 module.exports = {
     signUp: signUp,
-    logIn: logIn
-}
+    logIn: logIn,
+    requestClub: requestClub
+};

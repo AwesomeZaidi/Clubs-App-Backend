@@ -4,6 +4,9 @@ const bcrypt = require('bcrypt');
 
 const UserSchema = new Schema({
   type: { type: String, default: "member" },
+  requested: { type: Boolean },
+  accepted: { type: Boolean },
+  clubs: [{ type: Schema.Types.ObjectId, ref: "Club" }],
   fullName: { type: String, required: false },
   username: { type: String, required: true },
   password: { type: String, select: false }

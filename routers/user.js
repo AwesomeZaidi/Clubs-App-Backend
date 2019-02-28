@@ -38,4 +38,20 @@ users.get('/logout', (req,res) => {
     res.redirect('/');
 });
 
+users.post('/requestClub', (req, res) => {
+    console.log("in route");
+    
+    const data = req.body;
+    const userData = data.userData;
+    const clubData = data.clubData;
+    console.log("body data:", data);
+    controller.requestClub(userData, clubData).then((user) => {
+        res.status(200).send({user});
+    }).catch(err => {
+        console.log("err:", err);
+        res.status(401).send({err});        
+    })
+    
+});
+
 module.exports = users;

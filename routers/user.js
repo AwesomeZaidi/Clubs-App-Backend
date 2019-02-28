@@ -50,7 +50,20 @@ users.post('/requestClub', (req, res) => {
     }).catch(err => {
         console.log("err:", err);
         res.status(401).send({err});        
-    })
+    });
+});
+
+users.post('/getAllClubs', (req, res) => {
+    console.log("in route");
+    const data = req.body;
+    controller.getAllClubs(data).then((clubs) => {
+        console.log("clubss:", clubs);
+        
+        res.status(200).send({clubs});
+    }).catch(err => {
+        console.log("err:", err);
+        res.status(401).send({err});
+    });
     
 });
 

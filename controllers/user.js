@@ -22,8 +22,9 @@ function signUp(body) {
 function logIn(body) {
     return new Promise(async (resolve, reject) => {
         const { username, password } = body;
-        
-        let user = await User.findOne({username}, "username type password");
+        // NOT SURE WHY THIS WOULDN'T WORK ...
+        // let user = await User.findOne({username: username});
+        let user = await User.findOne({username}, "username type clubs requested accepted password");
         console.log("USER IN C:", user);
         
         // let user = await User.findOne({"username": username});
@@ -70,8 +71,24 @@ function requestClub(userData, clubData) {
     });
 };
 
+function getAllClubs(userData) {
+    return new Promise(async (resolve, reject) => {
+        let user = await User.findById(userData._id);
+        if (user && user.type === 'admin') {
+            console.log("user found:", user);
+            Club.find().then(clubs => {
+                console.log("clubs:", clubs);
+                resolve(clubs);                
+            });
+        } else {
+            reject("User not found or something went wrong");
+        };
+    });
+};
+
 module.exports = {
     signUp: signUp,
     logIn: logIn,
-    requestClub: requestClub
+    requestClub: requestClub,
+    getAllClubs: getAllClubs
 };

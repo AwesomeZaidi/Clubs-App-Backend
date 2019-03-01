@@ -25,9 +25,6 @@ function logIn(body) {
         // NOT SURE WHY THIS WOULDN'T WORK ...
         // let user = await User.findOne({username: username});
         let user = await User.findOne({username}, "username type clubs requested accepted password");
-        console.log("USER IN C:", user);
-        
-        // let user = await User.findOne({"username": username});
         if (!user) {
             reject('Wrong Username');
         };
@@ -38,6 +35,7 @@ function logIn(body) {
             const token = jwt.sign({_id: user._id, username: user.username}, process.env.SECRET, { expiresIn: "60 days" });
             resolve({user, token});   
         });
+        // OLD CODE, REMOVE LATER BUT LIKE ANAALYZE IT MORE ALSO...
         // user.comparePassword.then((err, isMatch) => {
         //     console.log("user:", user);
         //     if (!isMatch) {
@@ -86,9 +84,24 @@ function getAllClubs(userData) {
     });
 };
 
+function getClubLeaderClub(clubId, userId) {
+    return new Promise(async (resolve, reject) => {
+        let user = await User.findById(userId);
+        if (user && user.type === 'leader') {
+            console.log("user found:", user);
+            Club.findById(clubId).then(club => {
+                resolve(club);                
+            });
+        } else {
+            reject("User or club not found or something went wrong");
+        };
+    });
+};
+
 module.exports = {
     signUp: signUp,
     logIn: logIn,
     requestClub: requestClub,
-    getAllClubs: getAllClubs
+    getAllClubs: getAllClubs,
+    getClubLeaderClub: getClubLeaderClub
 };

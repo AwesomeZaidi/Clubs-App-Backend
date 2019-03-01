@@ -57,14 +57,24 @@ users.post('/getAllClubs', (req, res) => {
     console.log("in route");
     const data = req.body;
     controller.getAllClubs(data).then((clubs) => {
-        console.log("clubss:", clubs);
-        
+        console.log("clubss:", clubs);    
         res.status(200).send({clubs});
     }).catch(err => {
         console.log("err:", err);
         res.status(401).send({err});
-    });
+    }); 
+});
+
+users.post('/getClubLeaderClub', (req, res) => {
+    const clubId = req.body.clubId;
+    const userId = req.body.userId;
     
+    controller.getClubLeaderClub(clubId, userId).then((club) => {
+        res.status(200).send({club});
+    }).catch(err => {
+        console.log("err:", err);
+        res.status(401).send({err});
+    });
 });
 
 module.exports = users;

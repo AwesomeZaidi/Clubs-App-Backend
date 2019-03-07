@@ -6,12 +6,13 @@
 //  logout : GET
 const users = require('express').Router();
 const controller = require('../controllers/user');
+const checkAuth = require("../middleware/checkAuth");
+
 
 users.post('/signup', (req,res) => {
     const body = req.body;
     controller.signUp(body).then((result) => {     
-        const token = result.token;
-        const user = result.user;   
+        const { token, user } = result;
         res.cookie('nToken', token, { maxAge: 600000, httpOnly: true });
         return res.status(200).send({user, token});
     }).catch(error => {
@@ -25,11 +26,9 @@ users.post('/login', (req,res) => {
         const token = result.token;
         const user = result.user;  
         res.cookie("nToken", token, {maxAge: 900000, httpOnly:true});
-        console.log("user:", user);
         return res.status(200).send({user, token});
-    }).catch(error => {
-        console.log("error:", error);
-        return res.status(400).send({ error });
+    }).catch(err => {
+        return res.status(400).send({ err });
     });
 });
 
@@ -38,43 +37,35 @@ users.get('/logout', (req,res) => {
     res.redirect('/');
 });
 
-users.post('/requestClub', (req, res) => {
-    console.log("in route");
+users.post('/requestClub', checkAuth, (req, res) => {
+    console.log("req.user in route:", req.user);
     
     const data = req.body;
-    const userData = data.userData;
-    const clubData = data.clubData;
-    console.log("body data:", data);
+    const {userData, clubData }  = data;
     controller.requestClub(userData, clubData).then((user) => {
         res.status(200).send({user});
     }).catch(err => {
-        console.log("err:", err);
         res.status(401).send({err});        
     });
 });
 
 users.post('/getAllClubs', (req, res) => {
-    console.log("in route");
     const data = req.body;
-    controller.getAllClubs(data).then((clubs) => {
-        console.log("clubss:", clubs);    
+    controller.getAllClubs(data).then((clubs) => {   
         res.status(200).send({clubs});
     }).catch(err => {
-        console.log("err:", err);
         res.status(401).send({err});
     }); 
 });
 
 users.post('/getClubLeaderClub', (req, res) => {
-    const clubId = req.body.clubId;
-    const userId = req.body.userId;
-    
+    const { clubId, userId } = req.body;
     controller.getClubLeaderClub(clubId, userId).then((club) => {
         res.status(200).send({club});
     }).catch(err => {
-        console.log("err:", err);
         res.status(401).send({err});
     });
 });
+
 
 module.exports = users;

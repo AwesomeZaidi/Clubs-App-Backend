@@ -1,8 +1,6 @@
-
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
 const Club = require("../models/club");
-require('dotenv').config();
 
 function signUp(body) {
     return new Promise(async (resolve, reject) => {

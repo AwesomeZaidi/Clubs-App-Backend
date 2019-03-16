@@ -1,12 +1,18 @@
+<!-- Routes Documentation -->
+
 # Clubs App Routes
 
-## Signup
-✅
+## Login ✅
+*POST* `/login`
+- *Request:* email and password
+- *Response:* user object or error
 
-## Login
-✅
+## Signup ✅
+*POST* `/signup`
+- *Request:* email, first name, last name, phone number, email, password
+- Response: user object or error
 
-## Dashboard [ ]
+## Dashboard ✅
 🚧  GET `/dashboard`
 
 ✅ 🚧 The below logic is actually implemented on the FRONT end.
@@ -29,3 +35,14 @@ DO THIS FOR NOW.
 
 *Response* send back club object.
 
+## Club Events Calendar
+
+## Clubs List
+
+## Settings
+
+## Leader Manage Club Dashboard
+
+## Event Page
+
+## Create Event

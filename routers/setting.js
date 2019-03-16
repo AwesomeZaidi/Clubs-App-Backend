@@ -4,12 +4,12 @@
 // /settings : PUT
 
 
-const settings = require('express').Router();
+const setting = require('express').Router();
 // const User = require("../models/user");
 const controller = require('../controllers/settings');
 
 /* edit settings */
-settings.put('/settings', (req, res) => {
+setting.put('/settings', (req, res) => {
     const data = req.body;
     const userFormState = data.userFormState;
     // here i need to grab the form data to pass into the updateSettings controller 
@@ -22,4 +22,4 @@ settings.put('/settings', (req, res) => {
     };
 });
 
-module.exports = settings;
+module.exports = setting;

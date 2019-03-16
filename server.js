@@ -36,10 +36,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Create routers for every route in app
 const user = require('./routers/user');
-const settings = require('./routers/settings');
+const setting = require('./routers/setting');
+const leader = require('./routers/leader');
+
 
 app.use(user);
-app.use(settings)
+app.use(setting);
+app.use(leader);
 
 app.listen(process.env.PORT || 5000)
 // app.listen(port); // for heroku

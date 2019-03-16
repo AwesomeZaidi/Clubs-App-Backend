@@ -4,6 +4,7 @@
 // login : GET, POST
 //  signup : GET, POS
 //  logout : GET
+
 const users = require('express').Router();
 const controller = require('../controllers/user');
 const checkAuth = require("../middleware/checkAuth");
@@ -38,10 +39,7 @@ users.get('/logout', (req,res) => {
 });
 
 users.post('/requestClub', checkAuth, (req, res) => {
-    console.log("req.user in route:", req.user);
-    
-    const data = req.body;
-    const {userData, clubData }  = data;
+    const { userData, clubData } = req.body;
     controller.requestClub(userData, clubData).then((user) => {
         res.status(200).send({user});
     }).catch(err => {
@@ -49,7 +47,7 @@ users.post('/requestClub', checkAuth, (req, res) => {
     });
 });
 
-users.post('/getAllClubs', (req, res) => {
+users.post('/getAllClubs', checkAuth, (req, res) => {
     const data = req.body;
     controller.getAllClubs(data).then((clubs) => {   
         res.status(200).send({clubs});
@@ -58,7 +56,7 @@ users.post('/getAllClubs', (req, res) => {
     }); 
 });
 
-users.post('/getClubLeaderClub', (req, res) => {
+users.post('/getClubLeaderClub', checkAuth, (req, res) => {
     const { clubId, userId } = req.body;
     controller.getClubLeaderClub(clubId, userId).then((club) => {
         res.status(200).send({club});

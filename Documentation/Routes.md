@@ -2,24 +2,38 @@
 
 # Clubs App Routes
 
-## Login
+## Login ✅
 *POST* `/login`
 - *Request:* email and password
 - *Response:* user object or error
 
-## Signup
+## Signup ✅
 *POST* `/signup`
 - *Request:* email, first name, last name, phone number, email, password
 - Response: user object or error
 
-## Dashboard
-- *GET* `/dashboard`
-- *Request:* Find user populate their club's -> populate upcoming events
-- *Response:* If user has no clubs or no upcoming events -> Send msg to join clubs. If user has events coming up, send back list of club objects and list of upcoming event objects.
+## Dashboard ✅
+🚧  GET `/dashboard`
 
-- *GET /clubName/event-title/uid*
-- *Request:* Check & find user by cookies caToken -> find club by id -> find event.
-- *Response:* return event object or error.
+✅ 🚧 The below logic is actually implemented on the FRONT end.
+*Request* findUserById:
+-> if user is a `member` type
+    - *Response* send list of Club objects, _Later_: and list of Event objects 
+-> if user is a `member` type
+    - *Response* send list of Club objects, leaderClub object, _Later_: and list of Event objects 
+-> if user is a `admin` type
+    - *Response* to be created.
+
+DO THIS FOR NOW.
+
+*_LEADERS_*
+
+✅ POST `/requestNewClub` from dashboard component page.
+*Request* findUserById -> Make sure they're a leader -> Send form data to create new Club -> set `requested` attribute on user to `true` & `accepted` to `false`.
+
+- [ ] Change these attribute names to requestedClub and acceptedClub
+
+*Response* send back club object.
 
 ## Club Events Calendar
 
@@ -32,4 +46,3 @@
 ## Event Page
 
 ## Create Event
-

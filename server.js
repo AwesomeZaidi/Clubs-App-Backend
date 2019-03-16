@@ -7,18 +7,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-var cors = require('cors');
-// const port = process.env.PORT || 3000
 const mongoose = require('mongoose');
-
-// app.use(cors());
-
-app.use(cors({
-  origin:['http://localhost:3000'],
-  methods:['GET','POST'],
-  credentials: true // enable set cookie
-}));
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,7 +22,7 @@ app.engine('hbs', exphbs({
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect('mongodb://localhost/club-app-db', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost/clubs-app-db', { useNewUrlParser: true });
 require('./data/clubs-app-db');
 
 app.use(methodOverride('_method')) // override with POST having ?_method=DELETE or ?_method=PUT
@@ -46,11 +35,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Create routers for every route in app
-const checkAuth = require('./middleware/checkAuth')
 const user = require('./routers/user');
+const setting = require('./routers/setting');
+const leader = require('./routers/leader');
 
-app.use(checkAuth);
+
 app.use(user);
+app.use(setting);
+app.use(leader);
 
 app.listen(process.env.PORT || 5000)
 // app.listen(port); // for heroku

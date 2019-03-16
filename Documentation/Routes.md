@@ -28,3 +28,4 @@ DO THIS FOR NOW.
 - [ ] Change these attribute names to requestedClub and acceptedClub
 
 *Response* send back club object.
+

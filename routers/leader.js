@@ -15,17 +15,46 @@ const leader = require('express').Router();
 const controller = require('../controllers/leader');
 const checkAuth = require("../middleware/checkAuth");
 
-menusRouter.route('/add')
+leader.route('/event')
 
-    // POST
-    .get((req, res), checkAuth => {
+    // POST EVENT
+    .post(checkAuth, (req, res) => {
         const body = req.body;
-        controller.add(body).then((event) => {
-            return res.status(200).send({event});
+        controller.addEvent(body, req.user).then((club, event) => {
+            return res.status(200).send({club, event});
+        }).catch(error => {
+            res.status(401).send(error);
+        });
+    })
+
+    // DELETE EVENT - (almost done)
+    .delete(checkAuth, (req, res) => {
+        const eventId = req.body.eventId;
+        controller.removeEvent(eventId, req.user).then((club) => {
+            return res.status(200).send({club});
         }).catch(error => {
             res.status(401).send(error);
         });
     });
+
+// LEADER REQUESTS TO START A CLUB
+leader.post('/requestClub', checkAuth, (req, res) => {
+    const { clubData } = req.body;
+    const user = req.user;
+    controller.requestClub(user, clubData).then((user) => {
+        res.status(200).send({user});
+    }).catch(err => {
+        res.status(401).send({err});        
+    });
+});
+
+leader.post('/getClubLeaderClub', checkAuth, (req, res) => {
+    controller.getClubLeaderClub().then((club) => {
+        res.status(200).send({club});
+    }).catch(err => {
+        res.status(401).send({err});
+    });
+});
 
 
 module.exports = leader;

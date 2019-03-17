@@ -44,36 +44,10 @@ function logIn(body) {
     });
 };
 
-function requestClub(userData, clubData) {
-    return new Promise(async (resolve, reject) => {
-        let user = await User.findById(userData._id);
-        if (user) {
-            console.log("user found:", user);
-            let club = new Club(clubData);
-            console.log("club created:", club);
-            user.clubs.push(club);
-            console.log("user.clubs appended and saved:", user.clubs);
-            user.requested = true;
-            user.accepted = false;
-            user.save();            
-            console.log("user saved:", user);
-            club.leaders.push(user)
-            club.save();
-            console.log("club leaders appened and saved:", club.leaders);
-            resolve(user);
-        } else {
-            reject("User not found or something went wrong");
-        };
-    });
-};
-
-function getAllClubs(userData) {
-    return new Promise(async (resolve, reject) => {
-        let user = await User.findById(userData._id);
+function getAllClubs(user) {
+    return new Promise((resolve, reject) => {
         if (user && user.type === 'admin') {
-            console.log("user found:", user);
             Club.find().then(clubs => {
-                console.log("clubs:", clubs);
                 resolve(clubs);                
             });
         } else {
@@ -82,24 +56,8 @@ function getAllClubs(userData) {
     });
 };
 
-function getClubLeaderClub(clubId, userId) {
-    return new Promise(async (resolve, reject) => {
-        let user = await User.findById(userId);
-        if (user && user.type === 'leader') {
-            console.log("user found:", user);
-            Club.findById(clubId).then(club => {
-                resolve(club);                
-            });
-        } else {
-            reject("User or club not found or something went wrong");
-        };
-    });
-};
-
 module.exports = {
     signUp: signUp,
     logIn: logIn,
-    requestClub: requestClub,
-    getAllClubs: getAllClubs,
-    getClubLeaderClub: getClubLeaderClub
+    getAllClubs: getAllClubs
 };

@@ -21,7 +21,7 @@ users.post('/signup', (req,res) => {
     });
 });
 
-users.post('/login', (req,res) => {
+users.post('/login', (req, res) => {
     const body = req.body;
     controller.logIn(body).then((result) => {
         const token = result.token;
@@ -33,37 +33,17 @@ users.post('/login', (req,res) => {
     });
 });
 
-users.get('/logout', (req,res) => {
+users.get('/logout', (req, res) => {
     res.clearCookie('nToken');
     res.redirect('/');
 });
 
-users.post('/requestClub', checkAuth, (req, res) => {
-    const { userData, clubData } = req.body;
-    controller.requestClub(userData, clubData).then((user) => {
-        res.status(200).send({user});
-    }).catch(err => {
-        res.status(401).send({err});        
-    });
-});
-
-users.post('/getAllClubs', checkAuth, (req, res) => {
-    const data = req.body;
-    controller.getAllClubs(data).then((clubs) => {   
+users.get('/getAllClubs', checkAuth, (req, res) => {
+    controller.getAllClubs(req.user).then((clubs) => {   
         res.status(200).send({clubs});
     }).catch(err => {
         res.status(401).send({err});
     }); 
 });
-
-users.post('/getClubLeaderClub', checkAuth, (req, res) => {
-    const { clubId, userId } = req.body;
-    controller.getClubLeaderClub(clubId, userId).then((club) => {
-        res.status(200).send({club});
-    }).catch(err => {
-        res.status(401).send({err});
-    });
-});
-
 
 module.exports = users;

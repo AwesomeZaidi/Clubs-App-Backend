@@ -14,15 +14,11 @@ function addEvent(formData, user) {
     });
 };
 
-// ALMOST DONE!
 function removeEvent(eventId, user) {
     return new Promise(async (resolve, reject) => {
         const club = await Club.findById(user.clubs[0]);
-        club.remove(eventId); // Cannot read property 'events' of null
-        // Upon deletion of the first event in the array,the array dissapears and then we can't add events to an empty array.
-        // What's the fix here? 
-        const event = await Event.findById(eventId);    
-        event.remove(); //TODO: How do I remove an document object from my database documents?
+        club.events.remove(eventId);
+        await Event.findByIdAndDelete(eventId);  
         club.save();
         resolve(club);
     });

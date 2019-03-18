@@ -40,7 +40,7 @@ member.route('/club')
     })
 
     // LEAVE EVENT
-    .delete(checkAuth, (req, res) => {
+    .patch(checkAuth, (req, res) => {
         const eventId = req.body.eventId;
         controller.removeEvent(eventId, req.user).then((club) => {
             return res.status(200).send({club});

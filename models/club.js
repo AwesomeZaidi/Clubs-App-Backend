@@ -6,7 +6,7 @@ const ClubSchema = new Schema({
   requested: { type: String },
   accepted: { type: String },
   leaders: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  events: [{ type: Schema.Types.ObjectId, ref: "Event" }]
+  events: [{ type: Schema.Types.ObjectId, ref: "Event", default: [""]}]
 }, {
   timestamps: true,
 });

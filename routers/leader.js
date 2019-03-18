@@ -17,7 +17,7 @@ const checkAuth = require("../middleware/checkAuth");
 
 leader.route('/event')
 
-    // POST EVENT
+    // CREATE EVENT
     .post(checkAuth, (req, res) => {
         const body = req.body;
         controller.addEvent(body, req.user).then((club, event) => {
@@ -27,7 +27,7 @@ leader.route('/event')
         });
     })
 
-    // DELETE EVENT - (almost done)
+    // DELETE EVENT
     .delete(checkAuth, (req, res) => {
         const eventId = req.body.eventId;
         controller.removeEvent(eventId, req.user).then((club) => {

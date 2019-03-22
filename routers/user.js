@@ -15,7 +15,7 @@ users.post('/signup', (req,res) => {
     controller.signUp(body).then((result) => {     
         const { token, user } = result;
         res.cookie('nToken', token, { maxAge: 600000, httpOnly: true });
-        return res.status(200).send({user, token});
+        return res.status(200).send({user});
     }).catch(error => {
         res.status(401).send(error);
     });
@@ -27,8 +27,9 @@ users.post('/login', (req, res) => {
         const token = result.token;
         const user = result.user;  
         res.cookie("nToken", token, {maxAge: 900000, httpOnly:true});
-        return res.status(200).send({user, token});
+        return res.status(200).send({user});
     }).catch(err => {
+        console.log("err:", err);        
         return res.status(400).send({ err });
     });
 });

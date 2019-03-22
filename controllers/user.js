@@ -46,10 +46,10 @@ function logIn(body) {
 
 function getAllClubs(user) {
     return new Promise((resolve, reject) => {
-        if (user && user.type === 'admin') {
-            Club.find().then(clubs => {
-                resolve(clubs);                
-            });
+        if (user) {
+        Club.find().then(clubs => {
+            resolve(clubs);                
+        });
         } else {
             reject("User not found or something went wrong");
         };

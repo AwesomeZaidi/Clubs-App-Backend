@@ -6,6 +6,7 @@ const UserSchema = new Schema({
   type: { type: String, default: "member" },
   requested: { type: Boolean },
   accepted: { type: Boolean },
+  leaderClub: [{type: Schema.Types.ObjectId, ref: "Club"}],
   clubs: [{ type: Schema.Types.ObjectId, ref: "Club" }],
   fullName: { type: String, required: false },
   username: { type: String, required: true },

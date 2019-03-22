@@ -39,17 +39,18 @@ leader.route('/event')
 
 // LEADER REQUESTS TO START A CLUB
 leader.post('/requestClub', checkAuth, (req, res) => {
-    const { clubData } = req.body;
-    const user = req.user;
+    const clubData = req.body;
+    const user = req.user; 
     controller.requestClub(user, clubData).then((user) => {
         res.status(200).send({user});
-    }).catch(err => {
+    }).catch(err => {  
         res.status(401).send({err});        
     });
 });
 
-leader.post('/getClubLeaderClub', checkAuth, (req, res) => {
-    controller.getClubLeaderClub().then((club) => {
+leader.get('/getClubLeaderClub', checkAuth, (req, res) => {
+    console.log("IN GET CL LEADER: req.user:", req.user);
+    controller.getClubLeaderClub(req.user).then((club) => {
         res.status(200).send({club});
     }).catch(err => {
         res.status(401).send({err});

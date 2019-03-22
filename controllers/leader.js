@@ -27,21 +27,21 @@ function removeEvent(eventId, user) {
 function requestClub(user, clubData) {
     return new Promise(async (resolve, reject) => {
         let club = new Club(clubData);
-        user.clubs.push(club);
+        user.leaderClub ? user.leaderClub = [club._id] : user.leaderClub.push(club._id);
         user.requested = true;
         user.accepted = false;
-        user.save();
-        club.leaders.push(user)
-        club.save();
+        await user.save();
+        club.leaders.push(user._id);
+        await club.save();
         resolve(user);
     });
 };
 
-function getClubLeaderClub(clubId) {
+function getClubLeaderClub(user, clubId) {
     return new Promise((resolve, reject) => {
-        if (user && user.type === 'leader') {
-            Club.findById(user.clubs[0]._id).then(club => {
-                resolve(club);                
+        if (user.type === 'leader') {
+            Club.findById(user.leaderClub).then(club => {
+                resolve(club);           
             });
         } else {
             reject("User or club not found or something went wrong");

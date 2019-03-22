@@ -37,7 +37,7 @@ function requestClub(user, clubData) {
     });
 };
 
-function getClubLeaderClub(user, clubId) {
+function getClubLeaderClub(user) {
     return new Promise((resolve, reject) => {
         if (user.type === 'leader') {
             Club.findById(user.leaderClub).then(club => {

@@ -1,16 +1,27 @@
-const jwt = require('jsonwebtoken');
-const User = require("../models/user");
+
 const Club = require("../models/club");
 const Event = require("../models/event");
 
-function addEvent(formData, user) {
+
+function getEvent(eventId) {
+    return new Promise(async (resolve, reject) => {
+        const event = await Event.findById(eventId);
+        const club = await Club.findById(event.club);
+        console.log('event:', event);
+        console.log('club:', club);
+        resolve(event, club.title);
+    });
+};
+
+function addEvent(formData, leaderClub) {
     return new Promise(async (resolve, reject) => {
         const event = new Event(formData);
-        event.save();
-        const club = await Club.findById(user.clubs[0]);           
+        const club = await Club.findById(leaderClub);           
         club.events.push(event);
-        club.save();
-        resolve(club, event);
+        event.club = club._id;
+        await event.save();
+        await club.save();
+        resolve(event);
     });
 };
 
@@ -50,6 +61,7 @@ function getClubLeaderClub(user) {
 };
 
 module.exports = {
+    getEvent: getEvent,
     addEvent: addEvent,
     removeEvent: removeEvent,
     requestClub: requestClub,

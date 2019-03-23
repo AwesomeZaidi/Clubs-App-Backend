@@ -17,11 +17,18 @@ const checkAuth = require("../middleware/checkAuth");
 
 leader.route('/event')
 
+    // GET EVENT
+    .get((req, res) => {
+        controller.getEvent(req.query.eventId).then((event, clubTitle) => {
+            return res.status(200).send({event, clubTitle});
+        }).catch(error => {
+            res.status(401).send(error);
+        });
+    })
     // CREATE EVENT
     .post(checkAuth, (req, res) => {
-        const body = req.body;
-        controller.addEvent(body, req.user).then((club, event) => {
-            return res.status(200).send({club, event});
+        controller.addEvent(req.body, req.user.leaderClub).then((event) => {
+            return res.status(200).send({event});
         }).catch(error => {
             res.status(401).send(error);
         });
@@ -49,8 +56,7 @@ leader.post('/requestClub', checkAuth, (req, res) => {
 });
 
 leader.get('/getClubLeaderClub', checkAuth, (req, res) => {
-    console.log("IN GET CL LEADER: req.user:", req.user);
-    controller.getClubLeaderClub(req.user).then((club) => {
+    controller.getClubLeaderClub(req.user, req.user.leaderClub).then((club) => {
         res.status(200).send({club});
     }).catch(err => {
         res.status(401).send({err});

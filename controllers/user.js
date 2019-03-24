@@ -44,15 +44,11 @@ function logIn(body) {
     });
 };
 
-function getAllClubs(user) {
+function getAllClubs() {
     return new Promise((resolve, reject) => {
-        if (user) {
-        Club.find().then(clubs => {
+        Club.find({accepted:true}).then(clubs => {
             resolve(clubs);                
         });
-        } else {
-            reject("User not found or something went wrong");
-        };
     });
 };
 

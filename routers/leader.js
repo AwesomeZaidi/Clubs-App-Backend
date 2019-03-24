@@ -46,8 +46,8 @@ leader.route('/event')
 
 // LEADER REQUESTS TO START A CLUB
 leader.post('/requestClub', checkAuth, (req, res) => {
-    const clubData = req.body;
-    const user = req.user; 
+    const user = req.user;
+    const clubData = req.body.clubData;
     controller.requestClub(user, clubData).then((user) => {
         res.status(200).send({user});
     }).catch(err => {  

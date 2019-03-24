@@ -7,8 +7,6 @@
 
 const users = require('express').Router();
 const controller = require('../controllers/user');
-const checkAuth = require("../middleware/checkAuth");
-
 
 users.post('/signup', (req,res) => {
     const body = req.body;
@@ -20,11 +18,6 @@ users.post('/signup', (req,res) => {
         res.status(401).send(error);
     });
 });
-
-
-
-
-
 
 users.post('/login', (req, res) => {
     const body = req.body;
@@ -44,11 +37,11 @@ users.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-users.get('/getAllClubs', checkAuth, (req, res) => {
-    controller.getAllClubs(req.user).then((clubs) => {   
+users.get('/getAllClubs', (req, res) => {
+    controller.getAllClubs().then((clubs) => {   
         res.status(200).send({clubs});
     }).catch(err => {
-        res.status(401).send({err});
+        res.status(400).send({err});
     }); 
 });
 

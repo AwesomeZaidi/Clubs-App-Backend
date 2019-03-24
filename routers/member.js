@@ -29,10 +29,9 @@ const checkAuth = require("../middleware/checkAuth");
 
 
 member.route('/club')
-
     // JOIN EVENT
     .post(checkAuth, (req, res) => {
-        controller.addEvent(req.body, req.user).then((club, event) => {
+        controller.joinClub(req.body, req.user).then((club, event) => {
             return res.status(200).send({club, event});
         }).catch(error => {
             res.status(401).send(error);

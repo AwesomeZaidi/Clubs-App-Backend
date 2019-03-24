@@ -12,9 +12,7 @@ admin.get('/getAllClubsRequestingToJoin', checkAuth, (req, res) => {
 });
 
 admin.post('/acceptClub', checkAuth, (req, res) => {
-    console.log("req.body:", req.body);
-    console.log("req.body:", req.body);
-    controller.acceptClub(req.body).then((clubs) => {
+    controller.acceptClub(req.body.clubId).then((clubs) => {
         // send an email to the club accepted and maybe even a text to the club leader 😆 ✅ 
         res.status(200).send({clubs});
     }).catch(err => {

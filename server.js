@@ -36,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Create routers for every route in app
 const user = require('./routers/user');
+const member = require('./routers/member');
 const setting = require('./routers/setting');
 const leader = require('./routers/leader');
 const admin = require('./routers/admin');
@@ -43,6 +44,7 @@ const admin = require('./routers/admin');
 
 
 app.use(user);
+app.use(member);
 app.use(setting);
 app.use(leader);
 app.use(admin);

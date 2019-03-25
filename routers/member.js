@@ -29,16 +29,16 @@ const checkAuth = require("../middleware/checkAuth");
 
 
 member.route('/club')
-    // JOIN EVENT
+    // JOIN CLUB
     .post(checkAuth, (req, res) => {
-        controller.joinClub(req.body, req.user).then((club, event) => {
-            return res.status(200).send({club, event});
+        controller.joinClub(req.body.clubId, req.user).then((club, event) => {
+            return res.status(200).send({club});
         }).catch(error => {
             res.status(401).send(error);
         });
     })
 
-    // LEAVE EVENT
+    // LEAVE CLUB
     .patch(checkAuth, (req, res) => {
         const eventId = req.body.eventId;
         controller.removeEvent(eventId, req.user).then((club) => {
@@ -49,4 +49,4 @@ member.route('/club')
     });
 
 
-module.exports = users;
+module.exports = member;

@@ -3,12 +3,14 @@ const app = express();
 const path = require('path');
 const exphbs = require('express-handlebars');
 // const favicon = require('serve-favicon');
+const cors = require('cors');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 
+app.use(cors());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 

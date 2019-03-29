@@ -1,15 +1,35 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
+const validator = require('validator');
 
 const UserSchema = new Schema({
-  type: { type: String, default: "member" },
+  type: { type: String },
   requested: { type: Boolean },
   accepted: { type: Boolean },
+  leaderClub: [{type: Schema.Types.ObjectId, ref: "Club"}],
   clubs: [{ type: Schema.Types.ObjectId, ref: "Club" }],
-  fullName: { type: String, required: false },
+  firstName: { type: String, required: false },
+  lastName: { type: String, required: false },
   username: { type: String, required: true },
-  password: { type: String, select: false }
+  email: {
+    type: String,
+    required: [true, 'Email Required'],
+    validate: {
+      validator: validator.isEmail,
+      message: `{VALUE} not a valid email`
+    }
+  },
+  number: {
+    type: String,
+    trim: true,
+    required: false
+  },
+  password: {
+    type: String,
+    required: [true, 'Password Required'],
+    minlength: [3, 'Password must be longer than 3 characters.'],
+  }
 }, {
   timestamps: true,
 });

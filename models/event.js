@@ -3,8 +3,13 @@ const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
   title: { type: String },
+  description: { type: String },
   date: { type: Date },
-  club: [{ type: Schema.Types.ObjectId, ref: "Club" }],
+  timeStart: { type: String },
+  timeEnd: { type: String },
+  location: String,
+  club: { type: Schema.Types.ObjectId, ref: "Club" },
+  attendees: [{ type: Schema.Types.ObjectId, ref: "User" }]
 }, {
   timestamps: true,
 });

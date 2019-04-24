@@ -34,7 +34,7 @@ users.post('/login', (req, res) => {
 
 users.get('/logout', (req, res) => {
     res.clearCookie('nToken');
-    res.redirect('/');
+    return res.status(200).send('User logged out.');
 });
 
 users.get('/getAllClubs', (req, res) => {
@@ -43,6 +43,25 @@ users.get('/getAllClubs', (req, res) => {
     }).catch(err => {
         res.status(400).send({err});
     }); 
+});
+
+// CREATE EVENT
+users.get('/event/:id', (req, res) => {
+    controller.getEvent(req.body.eventId).then((eventAndclub) => {
+        console.log('clubAndEvent:', clubAndEvent);
+        
+        return res.status(200).send({event: eventAndClub[1], club: eventAndClub[0]});
+    }).catch(error => {
+        res.status(401).send(error);
+    });
+})
+
+users.get((req, res) => {
+    controller.getEvent(req.query.eventId).then((event, clubTitle) => {
+        return res.status(200).send({event, clubTitle});
+    }).catch(error => {
+        res.status(401).send(error);
+    });
 });
 
 module.exports = users;

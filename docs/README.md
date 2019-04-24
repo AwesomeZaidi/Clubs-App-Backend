@@ -5,127 +5,137 @@ Make School Club App. ⚾️🏕🤳
 
 The rest of the documentation is specified within the `Documentation` Folder.
 
+* = optional property as most of them will be required.
+
 ## Endpoints
 
-### All users:
+### ✅ All users:
 
 `/signup`
 
-**POST:**
+**POST:** Creates a new user in database.
 
-*Arguments:* 
+*Arguments:* firstName, lastName, username, email, password, type (defualt: member)
 
-*Returns:*
+*Returns:* Status 200, user object or status 500 Something went wrong
 
 `/login`
 
-**POST:**
+**POST:** Finds a user in database and logs them in by setting jwt token in cookies.
 
-*Arguments:*
+*Arguments:* email, password
 
-*Returns:*
+*Returns:* Status 200, user object or status 500 Something went wrong
 
 `/logout`
 
-**DELTE:**
+**DELETE:** Logs user out be removing jwt token from cookies.
 
-*Arguments:* 
+*Arguments:* None
 
-*Returns:*
+*Returns:* Deletes jwt token from cookies.
 
 `/allClubs`
 
-**POST:**
+**GET:** Finds and returns all the verified clubs in the database.
 
-*Arguments:*
+*Arguments:* None
 
-*Returns:*
-
-### Admin users:
-
-`/getAllClubsRequestingToJoin`
-
-**GET:**
-
-*Arguments:* 
-
-*Returns:*
-
-`/acceptClub`
-
-**POST:**
-
-*Arguments:*
-
-*Returns:*
-
-`/denyClub`
-
-**POST:**
-
-*Arguments:* 
-
-*Returns:*
-
-### Leader users:
-
-`/requestClub`
-
-**POST:**
-
-*Arguments:* 
-
-*Returns:*
-
-`/manageClub`
-
-**GET:**
-
-*Arguments:* 
-
-*Returns:*
+*Returns:* Returns list of Club objects.
 
 `/event`
 
-**GET:**
+**GET:** gets the specific event.
+
+*Arguments:* eventID, user not even required to be logged in.
+
+*Returns:* Status 200, event obj and club obj or Status 500 Something went wrong
+
+
+### ✅ Admin users:
+
+✅ `/getAllClubsRequestingToJoin`
+
+**GET:** finds and returns all the clubs requesting to join
 
 *Arguments:* 
 
-*Returns:*
+*Returns:* list of club objects who's accepted property is set to false
+
+✅ `/acceptClub`
+
+**POST:** Admin accepts a club, verifies it to be official.
+
+*Arguments:* club ID
+
+*Returns:* Status 200, or status 500 Something went wrong
+
+⏰ `/denyClub`
+
+**POST:** denies a club that requested to join, sends a rejection email - removes club from database.
+
+*Arguments:* club ID
+
+*Returns:* Status 200 or status 500 Something went wrong
+
+### ✅⏰ Leader users:
+
+`/requestClub`
+
+**POST:** Club Leader requests to start a club, their object is modified and club object is created.
+
+*Arguments:* ClubData object with (title) later, purpose, etc etc.
+
+*Returns:* Status 200, club object or Status 500 Sum went wrong.
+
+⏰ `/manageClub`
+
+**GET:** Get all the club info for leader in their settings ideally.
+
+*Arguments:* club ID
+
+*Returns:* Status 200, club object or Status 500 Something went wrong
 
 
-**POST:**
+**PUT:** Updates club information (settings ideally)
 
-*Arguments:* 
+*Arguments:* club ID
 
-*Returns:*
+*Returns:* Status 200, or Status 500 Something went wrong
 
+`/event` ✅
 
-**DELETE:**
+**POST:** creates an event, adds event ID to club
 
-*Arguments:* 
+*Arguments:* event ID, event data object (title, description, location, data, timeStart, timeEnd)
 
-*Returns:*
+*Returns:* Status 200, new event obj or Status 500 Something went wrong
+
+**DELETE:** deletes an event
+
+*Arguments:* event ID
+
+*Returns:* Status 200, Event Deleted, Club Object or Status 500 Something went wrong
 
 ### Member user:
 
-`/club`
+`/club` ✅
 
-**POST:**
+**POST:** 
 
-*Arguments:* 
+*Arguments:* clubId
 
-*Returns:*
+*Returns:* Status 200, Club Object or Status 500 Something went wrong
 
 **DELETE:**
 
-*Arguments:* 
+*Arguments:* clubId
 
-*Returns:*
+*Returns:* Status 200 or Status 500 Something went wrong
 
 ### Member user:
 
-`/attend`
+`/event`
 
 **POST:**
 

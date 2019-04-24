@@ -3,16 +3,6 @@ const Club = require("../models/club");
 const Event = require("../models/event");
 
 
-function getEvent(eventId) {
-    return new Promise(async (resolve, reject) => {
-        const event = await Event.findById(eventId);
-        const club = await Club.findById(event.club);
-        console.log('event:', event);
-        console.log('club:', club);
-        resolve(event, club.title);
-    });
-};
-
 function addEvent(formData, leaderClub) {
     return new Promise(async (resolve, reject) => {
         const event = new Event(formData);
@@ -27,7 +17,8 @@ function addEvent(formData, leaderClub) {
 
 function removeEvent(eventId, user) {
     return new Promise(async (resolve, reject) => {
-        const club = await Club.findById(user.clubs[0]);
+        const club = await Club.findById(user.leaderClub[0]);
+        console.log('club:', club);
         club.events.remove(eventId);
         await Event.findByIdAndDelete(eventId);  
         club.save();
@@ -44,7 +35,7 @@ function requestClub(user, clubData) {
         await user.save();
         club.leaders.push(user._id);
         await club.save();
-        resolve(user);
+        resolve(club);
     });
 };
 
@@ -61,7 +52,6 @@ function getClubLeaderClub(user) {
 };
 
 module.exports = {
-    getEvent: getEvent,
     addEvent: addEvent,
     removeEvent: removeEvent,
     requestClub: requestClub,

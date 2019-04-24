@@ -24,7 +24,7 @@ function acceptClub(clubId) {
         const user = await User.findById(club.leaders[0]); // will have to refactor this later when seeing which leader to verify, that change will take place on the front end as well.
         user.accepted = true;
         await user.save();
-        resolve(club)
+        resolve();
     });
 };
 

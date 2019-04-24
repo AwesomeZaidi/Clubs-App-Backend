@@ -18,7 +18,7 @@ function checkLeader (req, res, next) {
         const uid = jwt.decode(req.cookies.nToken, process.env.SECRET)._id;
         User.findById(uid).then(user => {
             req.user = user;
-            if (req.user.type == 'leader') {
+            if (req.user.type === 'leader') {
                 console.log('leader authenticated.');
                 
                 return next();
@@ -37,7 +37,7 @@ function checkAdmin (req, res, next) {
         const uid = jwt.decode(req.cookies.nToken, process.env.SECRET)._id;
         User.findById(uid).then(user => {
             req.user = user;
-            if (req.user.type == 'admin') {
+            if (req.user.type === 'admin') {
                 return next();
             };
             return res.status(401).send("Admin user not found");

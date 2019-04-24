@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 
 const UserSchema = new Schema({
-  type: { type: String },
+  type: { type: String, default: 'member' },
   requested: { type: Boolean },
   accepted: { type: Boolean },
   leaderClub: [{type: Schema.Types.ObjectId, ref: "Club"}],

@@ -133,16 +133,16 @@ The rest of the documentation is specified within the `Documentation` Folder.
 
 *Returns:* Status 200 or Status 500 Something went wrong
 
-`/rsvp` 🚧
+`/rsvp` ✅
 
-**POST:**
+**POST:** join(rsvp) an event
 
-*Arguments:* 
+*Arguments:* eventId
 
-*Returns:*
+*Returns:* event, status 200 or stat 500 sum went wrong
 
-**DELETE:**
+**DELETE:** leave(un'rsvp) an event
 
-*Arguments:* 
+*Arguments:* eventId
 
-*Returns:*
+*Returns:* status 200 or stat 500 sum went wrong

@@ -39,15 +39,24 @@ function requestClub(user, clubData) {
     });
 };
 
-function getClubLeaderClub(user) {
+function getLeaderClub(leaderClubId) {
     return new Promise((resolve, reject) => {
-        if (user.type === 'leader') {
-            Club.findById(user.leaderClub).then(club => {
-                resolve(club);           
-            });
-        } else {
-            reject("User or club not found or something went wrong");
-        };
+        Club.findById(leaderClubId).then(club => {
+            resolve(club);           
+        }).catch((err) => {
+            reject(err);
+        });
+    });
+};
+
+function editLeaderClub(leaderClubId, formData) {
+    return new Promise((resolve, reject) => {
+        Club.findById(leaderClubId).then(club => {
+            club.set(formData).save();
+            resolve(club);        
+        }).catch((err) => {
+            reject(err);
+        });
     });
 };
 
@@ -55,5 +64,6 @@ module.exports = {
     addEvent: addEvent,
     removeEvent: removeEvent,
     requestClub: requestClub,
-    getClubLeaderClub: getClubLeaderClub,
+    getLeaderClub: getLeaderClub,
+    editLeaderClub: editLeaderClub,
 };

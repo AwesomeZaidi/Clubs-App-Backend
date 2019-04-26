@@ -47,13 +47,24 @@ leader.post('/requestClub', auth.checkLeader, (req, res) => {
     });
 });
 
-leader.get('/getClubLeaderClub', auth.checkAuth, (req, res) => {
-    controller.getClubLeaderClub(req.user, req.user.leaderClub).then((club) => {
-        res.status(200).send({club});
-    }).catch(err => {
-        res.status(401).send({err});
+leader.route('/manageClub')
+    // GET CLUB
+    .get(auth.checkLeader, (req, res) => {
+        controller.getLeaderClub(req.user.leaderClub).then((club) => {
+            res.status(200).send({club});
+        }).catch(err => {
+            res.status(401).send({err});
+        });
+    })
+    // // UPDATE CLUB SETTINGS
+    .put(auth.checkLeader, (req, res) => {
+        const formData = req.body;
+        controller.editLeaderClub(req.user.leaderClub, formData).then((club) => {
+            res.status(200).send({club});
+        }).catch(err => {
+            res.status(401).send({err});
+        });
     });
-});
 
 
 module.exports = leader;

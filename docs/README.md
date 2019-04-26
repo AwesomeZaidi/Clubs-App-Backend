@@ -43,7 +43,7 @@ The rest of the documentation is specified within the `Documentation` Folder.
 
 *Returns:* Returns list of Club objects.
 
-`/event`
+`/event/:id`
 
 **GET:** gets the specific event.
 
@@ -80,7 +80,7 @@ The rest of the documentation is specified within the `Documentation` Folder.
 
 ### ✅⏰ Leader users:
 
-`/requestClub`
+`/requestClub` ✅
 
 **POST:** Club Leader requests to start a club, their object is modified and club object is created.
 
@@ -88,7 +88,7 @@ The rest of the documentation is specified within the `Documentation` Folder.
 
 *Returns:* Status 200, club object or Status 500 Sum went wrong.
 
-⏰ `/manageClub`
+⏰ `/manageClub` ✅
 
 **GET:** Get all the club info for leader in their settings ideally.
 
@@ -99,7 +99,7 @@ The rest of the documentation is specified within the `Documentation` Folder.
 
 **PUT:** Updates club information (settings ideally)
 
-*Arguments:* club ID
+*Arguments:* club ID, form Data
 
 *Returns:* Status 200, or Status 500 Something went wrong
 
@@ -121,7 +121,7 @@ The rest of the documentation is specified within the `Documentation` Folder.
 
 `/club` ✅
 
-**POST:** 
+**POST:** - refactor this to get a specific club page for any users!
 
 *Arguments:* clubId
 
@@ -133,9 +133,7 @@ The rest of the documentation is specified within the `Documentation` Folder.
 
 *Returns:* Status 200 or Status 500 Something went wrong
 
-### Member user:
-
-`/event`
+`/rsvp` 🚧
 
 **POST:**
 

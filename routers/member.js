@@ -48,7 +48,7 @@ member.route('/club')
         });
     });
 
-    member.route('/event')
+    member.route('/rsvp')
     // JOIN CLUB
     .post(auth.checkAuth, (req, res) => {
         controller.joinEvent(req.body.eventId, req.user).then((event) => {

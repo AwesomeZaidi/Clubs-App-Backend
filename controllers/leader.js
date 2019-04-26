@@ -3,16 +3,6 @@ const Club = require("../models/club");
 const Event = require("../models/event");
 
 
-function getEvent(eventId) {
-    return new Promise(async (resolve, reject) => {
-        const event = await Event.findById(eventId);
-        const club = await Club.findById(event.club);
-        console.log('event:', event);
-        console.log('club:', club);
-        resolve(event, club.title);
-    });
-};
-
 function addEvent(formData, leaderClub) {
     return new Promise(async (resolve, reject) => {
         const event = new Event(formData);
@@ -27,7 +17,7 @@ function addEvent(formData, leaderClub) {
 
 function removeEvent(eventId, user) {
     return new Promise(async (resolve, reject) => {
-        const club = await Club.findById(user.clubs[0]);
+        const club = await Club.findById(user.leaderClub[0]);
         club.events.remove(eventId);
         await Event.findByIdAndDelete(eventId);  
         club.save();
@@ -44,26 +34,35 @@ function requestClub(user, clubData) {
         await user.save();
         club.leaders.push(user._id);
         await club.save();
-        resolve(user);
+        resolve(club);
     });
 };
 
-function getClubLeaderClub(user) {
+function getLeaderClub(leaderClubId) {
     return new Promise((resolve, reject) => {
-        if (user.type === 'leader') {
-            Club.findById(user.leaderClub).then(club => {
-                resolve(club);           
-            });
-        } else {
-            reject("User or club not found or something went wrong");
-        };
+        Club.findById(leaderClubId).then(club => {
+            resolve(club);           
+        }).catch((err) => {
+            reject(err);
+        });
+    });
+};
+
+function editLeaderClub(leaderClubId, formData) {
+    return new Promise((resolve, reject) => {
+        Club.findById(leaderClubId).then(club => {
+            club.set(formData).save();
+            resolve(club);        
+        }).catch((err) => {
+            reject(err);
+        });
     });
 };
 
 module.exports = {
-    getEvent: getEvent,
     addEvent: addEvent,
     removeEvent: removeEvent,
     requestClub: requestClub,
-    getClubLeaderClub: getClubLeaderClub,
+    getLeaderClub: getLeaderClub,
+    editLeaderClub: editLeaderClub,
 };

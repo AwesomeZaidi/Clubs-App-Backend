@@ -1,8 +1,8 @@
-// member router <> member.js
+// member router </> member.js
 
 const member = require('express').Router();
 const controller = require('../controllers/member');
-const checkAuth = require("../middleware/checkAuth");
+const auth = require("../middleware/checkAuth");
 
     // `club`
     // - `post` - join a club
@@ -30,8 +30,8 @@ const checkAuth = require("../middleware/checkAuth");
 
 member.route('/club')
     // JOIN CLUB
-    .post(checkAuth, (req, res) => {
-        controller.joinClub(req.body.clubId, req.user).then((club, event) => {
+    .post(auth.checkAuth, (req, res) => {
+        controller.joinClub(req.body.clubId, req.user).then((club) => {
             return res.status(200).send({club});
         }).catch(error => {
             res.status(401).send(error);
@@ -39,14 +39,32 @@ member.route('/club')
     })
 
     // LEAVE CLUB
-    .patch(checkAuth, (req, res) => {
-        const eventId = req.body.eventId;
-        controller.removeEvent(eventId, req.user).then((club) => {
-            return res.status(200).send({club});
+    .patch(auth.checkAuth, (req, res) => {
+        const clubId = req.body.clubId;
+        controller.leaveClub(clubId, req.user).then(() => {
+            return res.status(200).send('Successfully left club.');
         }).catch(error => {
-            res.status(401).send(error);
+            res.status(500).send(error);
         });
     });
 
+    member.route('/rsvp')
+    // JOIN CLUB
+    .post(auth.checkAuth, (req, res) => {
+        controller.joinEvent(req.body.eventId, req.user).then((event) => {
+            return res.status(200).send({event});
+        }).catch(error => {
+            res.status(401).send(error);
+        });
+    })
+
+    // LEAVE CLUB
+    .patch(auth.checkAuth, (req, res) => {
+        controller.leaveClub(req.body.eventId, req.user).then(() => {
+            return res.status(200).send('Successfully left club.');
+        }).catch(error => {
+            res.status(500).send(error);
+        });
+    });
 
 module.exports = member;

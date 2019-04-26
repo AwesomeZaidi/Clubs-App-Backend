@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
 const Club = require("../models/club");
+const Event = require("../models/event");
+
 
 function signUp(body) {
     return new Promise(async (resolve, reject) => {
@@ -22,7 +24,7 @@ function logIn(body) {
         const { username, password } = body;
         // NOT SURE WHY THIS WOULDN'T WORK ...
         // let user = await User.findOne({username: username});
-        let user = await User.findOne({username}, "username type clubs requested accepted password");
+        let user = await User.findOne({username}, "username type clubs leaderClub requested accepted password");
         if (!user) {
             reject('Wrong Username');
         };
@@ -52,8 +54,20 @@ function getAllClubs() {
     });
 };
 
+function getEvent(eventId) {
+    return new Promise(async (resolve, reject) => {
+        const event = await Event.findById(eventId);
+        const club = await Club.findById(event.club);
+        if (club && event) {
+            resolve([event, club]);  
+        }
+        reject();
+    });
+};
+
 module.exports = {
     signUp: signUp,
     logIn: logIn,
-    getAllClubs: getAllClubs
+    getAllClubs: getAllClubs,
+    getEvent: getEvent,
 };

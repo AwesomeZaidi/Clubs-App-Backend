@@ -26,8 +26,7 @@ users.post('/login', (req, res) => {
         const user = result.user;  
         res.cookie("nToken", token, {maxAge: 900000, httpOnly:true});
         return res.status(200).send({user});
-    }).catch(err => {
-        console.log("err:", err);        
+    }).catch(err => {      
         return res.status(400).send({ err });
     });
 });
@@ -47,10 +46,8 @@ users.get('/getAllClubs', (req, res) => {
 
 // CREATE EVENT
 users.get('/event/:id', (req, res) => {
-    controller.getEvent(req.body.eventId).then((eventAndclub) => {
-        console.log('clubAndEvent:', clubAndEvent);
-        
-        return res.status(200).send({event: eventAndClub[1], club: eventAndClub[0]});
+    controller.getEvent(req.params.id).then((eventAndClub) => {
+        return res.status(200).send({event: eventAndClub[0], club: eventAndClub[1]});
     }).catch(error => {
         res.status(401).send(error);
     });

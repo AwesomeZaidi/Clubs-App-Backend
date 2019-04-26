@@ -31,7 +31,7 @@ const auth = require("../middleware/checkAuth");
 member.route('/club')
     // JOIN CLUB
     .post(auth.checkAuth, (req, res) => {
-        controller.joinClub(req.body.clubId, req.user).then((club, event) => {
+        controller.joinClub(req.body.clubId, req.user).then((club) => {
             return res.status(200).send({club});
         }).catch(error => {
             res.status(401).send(error);
@@ -42,6 +42,25 @@ member.route('/club')
     .patch(auth.checkAuth, (req, res) => {
         const clubId = req.body.clubId;
         controller.leaveClub(clubId, req.user).then(() => {
+            return res.status(200).send('Successfully left club.');
+        }).catch(error => {
+            res.status(500).send(error);
+        });
+    });
+
+    member.route('/event')
+    // JOIN CLUB
+    .post(auth.checkAuth, (req, res) => {
+        controller.joinEvent(req.body.eventId, req.user).then((event) => {
+            return res.status(200).send({event});
+        }).catch(error => {
+            res.status(401).send(error);
+        });
+    })
+
+    // LEAVE CLUB
+    .patch(auth.checkAuth, (req, res) => {
+        controller.leaveClub(req.body.eventId, req.user).then(() => {
             return res.status(200).send('Successfully left club.');
         }).catch(error => {
             res.status(500).send(error);

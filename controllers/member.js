@@ -1,9 +1,8 @@
 const Club = require("../models/club");
+const Event = require("../models/event");
 
 
 function joinClub(clubId, user) {
-    console.log("clubId:", clubId);
-    console.log("user:", user);
     return new Promise(async (resolve, reject) => {
         const club = await Club.findById(clubId);
         if (!club) {
@@ -19,11 +18,8 @@ function joinClub(clubId, user) {
 };
 
 function leaveClub(clubId, user) {
-    console.log('here');
     return new Promise(async (resolve, reject) => {
-        console.log('heree');
         const club = await Club.findById(clubId);
-        console.log('club:', club); 
         if (!club) {
             reject();
         } else {
@@ -36,7 +32,39 @@ function leaveClub(clubId, user) {
     });
 };
 
+function joinEvent(eventId, user) {
+    return new Promise(async (resolve, reject) => {
+        const event = await Event.findById(eventId);
+        if (!event) {
+            reject("Club not found");
+        } else {
+            event.attendees.push(user._id);
+            user.events.push(event._id);
+            await event.save();
+            await user.save();
+            resolve(event);
+        };
+    });
+};
+
+function leaveEvent(eventId, user) {
+    return new Promise(async (resolve, reject) => {
+        const event = await Event.findById(eventId);
+        if (!event) {
+            reject();
+        } else {
+            event.members.remove(user._id);
+            user.events.remove(eventId);
+            await event.save();
+            await user.save();
+            resolve();
+        };
+    });
+};
+
 module.exports = {
     joinClub: joinClub,
-    leaveClub: leaveClub
+    leaveClub: leaveClub,
+    joinEvent: joinEvent,
+    leaveEvent: leaveEvent
 };

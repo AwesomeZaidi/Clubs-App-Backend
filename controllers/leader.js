@@ -18,7 +18,6 @@ function addEvent(formData, leaderClub) {
 function removeEvent(eventId, user) {
     return new Promise(async (resolve, reject) => {
         const club = await Club.findById(user.leaderClub[0]);
-        console.log('club:', club);
         club.events.remove(eventId);
         await Event.findByIdAndDelete(eventId);  
         club.save();

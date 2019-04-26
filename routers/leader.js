@@ -27,10 +27,8 @@ leader.route('/event')
     // DELETE EVENT
     .delete(auth.checkLeader, (req, res) => {
         const eventId = req.body.eventId;
-        console.log('req.user:', req.user);
-        console.log('eventId:', eventId);
         controller.removeEvent(eventId, req.user).then((club) => {
-            return res.status(200).send('Event Deleted', {club});
+            return res.status(200).send({club});
         }).catch(error => {
             res.status(401).send(error);
         });
@@ -39,7 +37,6 @@ leader.route('/event')
 // LEADER REQUESTS TO START A CLUB
 leader.post('/requestClub', auth.checkLeader, (req, res) => {
     const user = req.user;
-    console.log('req.body:', req.body);
     controller.requestClub(user, req.body).then((club) => {
         res.status(200).send({club});
     }).catch(err => {  
